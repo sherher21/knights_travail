@@ -21,10 +21,8 @@ class MoveTree
   end
 
   def children
-    move_list = possible_moves(@position)
-    move_list.reject! { |pos| @@history.include?(pos) }
-    move_list.map! { |posit| MoveTree.new(posit, self)}
-    return move_list
+    return possible_moves(@position).reject { |pos| @@history.include?(pos) }
+                                    .map! { |posit| MoveTree.new(posit, self)}
   end
 end
 
@@ -33,7 +31,7 @@ def shortest_path(node, list = [])
   list << node.position
 end
 
-def knight_moves(start_position, end_position, queue = [], list = [])
+def knight_moves(start_position, end_position, queue = [])
   node = MoveTree.new(start_position, nil)
   until node.position == end_position
     node.children.each { |child| queue << child }
